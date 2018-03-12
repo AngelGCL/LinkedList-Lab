@@ -56,4 +56,9 @@ public abstract class AbstractDLList<E> implements LinkedList<E> {
 		}
 		
 	}
+
+	public <T> T[] toArray(T[] array) {
+		// TODO Auto-generated method stub
+		return array;
+	}
 }

@@ -1,6 +1,9 @@
 package linkedLists;
 
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
+
+import linkedLists.AbstractSLList.SNode;
 
 public class DLDHDTList<E> extends AbstractDLList<E> {
 	private DNode<E> header, trailer; 
@@ -69,7 +72,7 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	public Node<E> getNodeAfter(Node<E> target)
 			throws NoSuchElementException {
 		// ADD CODE HERE AND MODIFY RETURN ACCORDINGLY
-		if(target == trailer)
+		if(target == this.getLastNode())
 			throw new NoSuchElementException("getNodeAfter(...): target is last node...");
 		
 		DNode<E> dNext = ((DNode<E>) target).getNext();
@@ -79,7 +82,7 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	public Node<E> getNodeBefore(Node<E> target)
 			throws NoSuchElementException {
 		// ADD CODE HERE AND MODIFY RETURN ACCORDINGLY
-		if(target == header)
+		if(target == this.getFirstNode())
 			throw new NoSuchElementException("getNodeBefore(...): target is first node...");
 		
 		DNode<E> dPrev = ((DNode<E>) target).getPrev();
@@ -87,18 +90,19 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	}
 
 	public int length() {
-		return length;
+		return this.length;
 	}
 
 	public void removeNode(Node<E> target) {
 		// ADD CODE HERE to disconnect target from the linked list, reduce lent, clean target...
-		if(target == header)
-			header = header.getNext();
-		
-		else{
+		if(target == this.getFirstNode()) {
+			header.setNext(((DNode<E>) target).getNext());
+		}
+		else {
 			DNode<E> prev = ((DNode<E>)getNodeBefore(target));
 			prev.setNext(((DNode<E>) target).getNext());
 		}
+		
 		((DNode<E>) target).clean();
 		length--;
 	}
@@ -125,7 +129,10 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	 * doubly linked list with dummy header and dummy trailer nodes. 
 	 */
 	public void makeEmpty() { 
-		// TODO
+		destroy();
+		header = null;
+		trailer = null;
+		length = 0;
 	}
 		
 	protected void finalize() throws Throwable {
@@ -134,6 +141,43 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	    } finally {
 	        super.finalize();
 	    }
+	}
+	
+	public Object[] toArray() {
+		
+		Object[] arr = new Object[this.length()];
+		int i=0;
+		DNode<E> prev = (DNode<E>)this.getFirstNode();
+		
+		while(prev != null){ // prev=null when the last node has been added
+			arr[i] = prev;
+			i++;
+			prev = prev.getNext();
+		}
+		return arr;
+	}
+	@Override
+	public <T> T[] toArray(T[] array) {
+		
+		if(array.length < this.length()) {
+			T[] newInstance = (T[]) Array.newInstance(array.getClass().getComponentType(), this.length());
+			array = newInstance;
+		}
+		else if(array.length > this.length()) {
+			for(int j=this.length(); j<array.length; j++) {
+				array[j] = null;
+			}
+		}
+		
+		int c=0;
+		DNode<E> prev = (DNode<E>)this.getFirstNode();
+		while(prev != null) {
+			array[c] = (T) prev;
+			c++;
+			prev = prev.getNext();
+		}
+
+		return array;
 	}
 
 }

@@ -34,6 +34,12 @@ public class IndexListTester {
 		}
 		
 		showList(list); 
+		
+		
+		Object[] array = ((LLIndexList<Integer>)list).toArray(new Object[list.size()]);
+		for (int i = 0; i < list.size(); i++) {
+			   System.out.println("Array:" + array[i]);
+			   }
 
 
 		showListAfterDeleting(list, 4); 

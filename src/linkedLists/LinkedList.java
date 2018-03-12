@@ -2,7 +2,19 @@ package linkedLists;
 
 import java.util.NoSuchElementException;
 
-public interface LinkedList<E> {
+/**
+ * 
+ * @author manch
+ *
+ * @param <E>
+ * 
+ * For the excercise 6 we can extend the Cloneable class but this only lets me use the methods inside the super class,
+ * on the other hand if i were to implement the Cloneable Interface it will obligate me to re-implement the clone method
+ * this could also be done with extending the class into an intermediate AbstractLinkedList class. it just needs to 
+ * implement the LinkedList interface and i can implement the Clone() method.
+ */
+
+public interface LinkedList<E> extends Cloneable{
 	
 	/**
 	 * Determines the number of nodes currently in the linked list. 
@@ -79,6 +91,8 @@ public interface LinkedList<E> {
 	 * null. The new node is not linked to the list in any way.
 	 * @return reference to the new node instance. 
 	 */
-	Node<E> createNewNode(); 
+	Node<E> createNewNode();
+
+	
 
 }

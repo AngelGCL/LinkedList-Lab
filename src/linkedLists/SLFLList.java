@@ -7,9 +7,11 @@ package linkedLists;
  *
  */
 
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 
 import linkedLists.LinkedList;
+import linkedLists.AbstractDLList.DNode;
 import linkedLists.AbstractSLList.SNode;
 
 public class SLFLList<E> extends SLList<E>
@@ -123,6 +125,43 @@ public class SLFLList<E> extends SLList<E>
 	
 	public Node<E> createNewNode() {
 		return new SNode<E>();
+	}
+	
+	public Object[] toArray() {
+		
+		Object[] arr = new Object[this.length()];
+		int i=0;
+		SNode<E> prev = first;
+		
+		while(prev != null){ // prev=null when the last node has been added
+			arr[i] = prev;
+			i++;
+			prev = prev.getNext();
+		}
+		return arr;
+	}
+	@Override
+	public <T> T[] toArray(T[] array) {
+		
+		if(array.length < this.length()) {
+			T[] newInstance = (T[]) Array.newInstance(array.getClass().getComponentType(), this.length());
+			array = newInstance;
+		}
+		else if(array.length > this.length()) {
+			for(int j=this.length(); j<array.length; j++) {
+				array[j] = null;
+			}
+		}
+		
+		int c=0;
+		SNode<E> prev = (SNode<E>)this.getFirstNode();
+		while(prev != null) {
+			array[c] = (T) prev;
+			c++;
+			prev = prev.getNext();
+		}
+
+		return array;
 	}
 
 }
